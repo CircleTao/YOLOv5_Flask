@@ -4,10 +4,11 @@ from flask import Flask, render_template, request, redirect, url_for, make_respo
 from werkzeug.utils import secure_filename
 import os
 import cv2
-import time
+import shutil
 
 from datetime import timedelta
 
+app = Flask(__name__)
 # 设置允许的文件格式
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'JPG', 'PNG', 'MP4', 'AVI', 'mp4', 'avi'])
 
@@ -16,7 +17,7 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
-app = Flask(__name__)
+
 # 设置静态文件缓存过期时间
 app.send_file_max_age_default = timedelta(seconds=1)
 
@@ -25,6 +26,8 @@ app.send_file_max_age_default = timedelta(seconds=1)
 @app.route('/upload', methods=['POST', 'GET'])  # 添加路由
 def upload():
     if request.method == 'POST':
+        shutil.rmtree("static/images")
+        os.makedirs("static/images")
         f = request.files['file']
 
         if not (f and allowed_file(f.filename)):
@@ -53,6 +56,11 @@ def upload_ok():
 
 @app.route('/show')
 def show():
+    '''
+        这里要调用模型识别的代码，将本地的图片放入模型进行识别，
+        然后将生成的图片保存到本地，最后再将识别结果传到前端进行展示
+    '''
+
     return render_template('show.html')
 
 if __name__ == '__main__':
