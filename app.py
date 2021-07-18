@@ -1,21 +1,23 @@
 # coding:utf-8
 
-from flask import Flask, render_template, request, redirect, url_for, make_response, jsonify
+from flask import Flask, render_template, request, redirect, url_for, make_response, jsonify, send_file
 from werkzeug.utils import secure_filename
 import os
 import cv2
+import base64
 import shutil
 
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 app = Flask(__name__)
 # 设置允许的文件格式
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'JPG', 'PNG', 'MP4', 'AVI', 'mp4', 'avi'])
 
+'''判断上传的文件后缀是否合法'''
+
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
 
 
 # 设置静态文件缓存过期时间
@@ -31,7 +33,8 @@ def upload():
         f = request.files['file']
 
         if not (f and allowed_file(f.filename)):
-            return jsonify({"error": 1001, "msg": "请检查上传的文件类型，仅限于'png', 'jpg', 'JPG', 'PNG', 'MP4', 'AVI', 'mp4', 'avi'"})
+            return jsonify(
+                {"error": 1001, "msg": "请检查上传的文件类型，仅限于'png', 'jpg', 'JPG', 'PNG', 'MP4', 'AVI', 'mp4', 'avi'"})
 
         user_input = request.form.get("name")
 
@@ -49,19 +52,52 @@ def upload():
 
     return render_template('upload1.html')
 
+
 @app.route('/upload_ok', methods=['POST', 'GET'])
 def upload_ok():
     return render_template('upload_ok.html')
 
 
-@app.route('/show')
+@app.route('/show', methods=['POST', 'GET'])
 def show():
     '''
         这里要调用模型识别的代码，将本地的图片放入模型进行识别，
         然后将生成的图片保存到本地，最后再将识别结果传到前端进行展示
     '''
+    '''结果存放于/static/results下'''
+    # filename = 'static/results/1.jpg'
+    # request_begin_time = datetime.today()
+    # print("request_begin_time", request_begin_time)
+    # if request.method == 'GET':
+    #     if filename is None:
+    #         print('None result!')
+    #     else:
+    #         return send_file(filename)
+    # else:
+    #     pass
+    # return "error"
+    # 这里修改一下对接的路径即可
+    img_path = 'd:project/static/results/1.jpg'
+    img_stream = showimg(img_path)
+    return render_template('imgshow.html',data = img_stream)
 
-    return render_template('show.html')
+def showimg(filename):
+
+    img_stream = ''
+    with open(filename,'rb') as img:
+        img_stream = img.read()
+        #  print(base64.b16encode(img_stream))
+        img_stream = base64.b64encode(img_stream).decode()
+    return img_stream
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True,port=81)
+    #show()
+    #test()
