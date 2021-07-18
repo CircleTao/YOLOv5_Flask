@@ -8,4 +8,3 @@
  /upload_ok 上传完图片、进行图片展示
  
  /show 展示识别效果
- # test
