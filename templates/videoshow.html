@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>识别结果</title>
+</head>
+<body>
+    <h1>这里展示使用{{ msg }}识别结果视频</h1>
+    <br>
+    <video width="1000" height="450" controls="controls">
+        <source src="{{ url_for('static',filename = video) }}" type="video/mp4"/>
+    </video>
+</body>
+</html>

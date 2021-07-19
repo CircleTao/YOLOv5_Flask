@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flask上传图片演示</title>
+</head>
+<body>
+    <h1>点击开始识别进行识别</h1>
+    <form method="get" action="/show_image1">
+        <button type="submit">使用自训练模型进行识别</button>
+    </form>
+    <br>
+    <form method="get" action="/show_image2">
+        <button type="submit">使用官方模型进行识别</button>
+    </form>
+    <img src="{{ url_for('static', filename= './images/test.jpg',_t=val1) }}" width="400" height="400" alt="你的图片被外星人劫持了～～"/>
+</body>
+</html>
