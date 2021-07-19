@@ -49,9 +49,8 @@ def upload():
         f = request.files['file']
 
         if not (f and allowed_file(f.filename)):
-            return
-            # return jsonify(
-            #     {"error": 1001, "msg": "请检查上传的文件类型，仅限于'png', 'jpg', 'JPG', 'PNG', 'MP4', 'AVI', 'mp4', 'avi'"})
+            return jsonify(
+                 {"error": 1001, "msg": "请检查上传的文件类型，仅限于'png', 'jpg', 'JPG', 'PNG', 'MP4', 'AVI', 'mp4', 'avi'"})
 
         if f.filename.split('.')[-1] in IMAGE_NAME:
             upload_path = os.path.join(basepath, 'static/images', secure_filename(f.filename))  # 注意：没有的文件夹一定要先创建，不然会提示没有该路径
