@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <video width="1000" height="450" controls="controls">
+        <source src="{{ url_for('static',filename = data) }}" type="video/mp4"/>
+    </video>
+    <form method="get" action="/show_video1">
+        <button type="submit">使用自训练模型进行识别</button>
+    </form>
+    <br>
+    <form method="get" action="/show_video2">
+        <button type="submit">使用官方模型进行识别</button>
+    </form>
+</body>
+</html>
