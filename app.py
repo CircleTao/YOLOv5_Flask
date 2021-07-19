@@ -1,6 +1,7 @@
 # coding:utf-8
+from importlib import import_module
 
-from flask import Flask, render_template, request, redirect, url_for, make_response, jsonify, send_file
+from flask import Flask, render_template, request, redirect, url_for, make_response, jsonify, send_file, Response
 from werkzeug.utils import secure_filename
 import os
 import cv2
@@ -79,20 +80,35 @@ def show():
     # 这里修改一下对接的路径即可
     img_path = 'd:project/static/results/1.jpg'
     img_stream = showimg(img_path)
-    return render_template('imgshow.html',data = img_stream)
+    return render_template('imgshow.html', data=img_stream)
+
 
 def showimg(filename):
-
     img_stream = ''
-    with open(filename,'rb') as img:
+    with open(filename, 'rb') as img:
         img_stream = img.read()
         #  print(base64.b16encode(img_stream))
         img_stream = base64.b64encode(img_stream).decode()
     return img_stream
 
 
+'''视频播放'''
+@app.route('/vshow')
+def movie_list():
+#     return '''
+#     <!DOCTYPE html>
+# <html>
+# <body>
+# <video width="1000" height="450" controls="controls">
+#   <source src="static/videos/test.mp4" type="video/mp4" />
+# </video>
+# </body>
+# </html>
+#     '''
+    filename = 'static'
+    return render_template('videoshow.html')
 
 if __name__ == '__main__':
-    app.run(debug=True,port=81)
-    #show()
-    #test()
+    app.run(debug=True, port=81)
+    # show()
+    # test()
