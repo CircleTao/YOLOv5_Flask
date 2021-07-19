@@ -66,19 +66,6 @@ def show():
         然后将生成的图片保存到本地，最后再将识别结果传到前端进行展示
     '''
     '''结果存放于/static/results下'''
-    # filename = 'static/results/1.jpg'
-    # request_begin_time = datetime.today()
-    # print("request_begin_time", request_begin_time)
-    # if request.method == 'GET':
-    #     if filename is None:
-    #         print('None result!')
-    #     else:
-    #         return send_file(filename)
-    # else:
-    #     pass
-    # return "error"
-
-
     # 使用获取文件的路径并显示文件
     basepath = os.path.dirname(__file__)  # 当前文件所在路径
     # 下面两行为results文件夹的清除与建立（清理缓存功能），与识别模型结合再取消注释
@@ -99,7 +86,21 @@ def showimg(filename):
         img_stream = base64.b64encode(img_stream).decode()
     return img_stream
 
-
+'''视频播放'''
+@app.route('/vshow')
+def movie_list():
+#     return '''
+#     <!DOCTYPE html>
+# <html>
+# <body>
+# <video width="1000" height="450" controls="controls">
+#   <source src="static/videos/test.mp4" type="video/mp4" />
+# </video>
+# </body>
+# </html>
+#     '''
+    filename = 'static'
+    return render_template('videoshow.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=81)
