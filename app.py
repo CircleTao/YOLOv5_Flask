@@ -78,6 +78,7 @@ def show():
     #     pass
     # return "error"
 
+
     # 使用获取文件的路径并显示文件
     basepath = os.path.dirname(__file__)  # 当前文件所在路径
     # 下面两行为results文件夹的清除与建立（清理缓存功能），与识别模型结合再取消注释
@@ -87,10 +88,12 @@ def show():
     img_stream = showimg(img_path)
     return render_template('imgshow.html', image=img_stream)
 
+
 def showimg(filename):
 
     img_stream = ''
     with open(filename, 'rb') as img:
+
         img_stream = img.read()
         #  print(base64.b16encode(img_stream))
         img_stream = base64.b64encode(img_stream).decode()
