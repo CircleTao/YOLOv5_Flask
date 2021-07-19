@@ -49,6 +49,7 @@ def upload():
 
     return render_template('upload1.html')
 
+
 @app.route('/upload_ok', methods=['POST', 'GET'])
 def upload_ok():
     return render_template('upload_ok.html')
