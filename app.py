@@ -39,8 +39,6 @@ def upload():
 
         user_input = request.form.get("name")
 
-
-
         upload_path = os.path.join(basepath, 'static/images', secure_filename(f.filename))  # 注意：没有的文件夹一定要先创建，不然会提示没有该路径
         # upload_path = os.path.join(basepath, 'static/images','test.jpg')  #注意：没有的文件夹一定要先创建，不然会提示没有该路径
         f.save(upload_path)
@@ -77,32 +75,33 @@ def show():
 
 
 def showimg(filename):
-
     img_stream = ''
     with open(filename, 'rb') as img:
-
         img_stream = img.read()
         #  print(base64.b16encode(img_stream))
         img_stream = base64.b64encode(img_stream).decode()
     return img_stream
 
+
 '''视频播放'''
+
+
 @app.route('/vshow')
 def movie_list():
+    filename = 'videos/test.mp4'
+    return render_template('videoshow.html',data = filename)
 #     return '''
 #     <!DOCTYPE html>
 # <html>
 # <body>
 # <video width="1000" height="450" controls="controls">
-#   <source src="static/videos/test.mp4" type="video/mp4" />
+#     <source src="static/videos/test.mp4" type="video/mp4"/>
 # </video>
 # </body>
 # </html>
-#     '''
-    filename = 'static'
-    return render_template('videoshow.html')
+# '''
 
 if __name__ == '__main__':
     app.run(debug=True, port=81)
-    #show()
-    #test()
+    # show()
+    # test()
